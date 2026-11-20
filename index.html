@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1b1431">
+<title>Sistem RT 2/7</title>
+<style>html,body{margin:0;height:100%;background:#1b1431}iframe{border:0;width:100%;height:100%}</style>
+</head>
+<body>
+<iframe id="app"></iframe>
+
+<script>
+const EXEC = 'https://script.google.com/macros/s/AKfycbw8MU-Jh9WydxKUYkrnukJqvMkckFjozWOVE1PnMBH3rvVoNrJm4Ko3FwD5j8EBXO8n/exec';
+const SEEN_KEY = 'pwa-info-seen';
+const SEEN_AFTER_MS = 12000;
+let latestIds = [], timer = null;
+
+document.getElementById('app').src = EXEC;
+
+const getSeen = () => { try { return JSON.parse(localStorage.getItem(SEEN_KEY)); } catch (e) { return null; } };
+const setSeen = (ids) => { try { localStorage.setItem(SEEN_KEY, JSON.stringify(ids)); } catch (e) {} };
+
+function paint(n) {
+  if ('setAppBadge' in navigator) { n > 0 ? navigator.setAppBadge(n) : navigator.clearAppBadge(); }
+  document.title = (n > 0 ? '(' + n + ') ' : '') + 'Sistem RT 2/7';
+}
+
+async function check() {
+  try {
+    const r = await fetch(EXEC + '?action=badge&t=' + Date.now());
+    const d = await r.json();
+    latestIds = d.info.map(x => String(x.id));
+    let seen = getSeen();
+    if (seen === null) { setSeen(latestIds); seen = latestIds; }
+    const unseen = latestIds.filter(id => seen.indexOf(id) < 0).length;
+    paint(unseen);
+    if (unseen && !document.hidden && !timer) {
+      timer = setTimeout(() => {
+        timer = null;
+        if (!document.hidden) { setSeen(latestIds); paint(0); }
+      }, SEEN_AFTER_MS);
+    }
+  } catch (e) { console.error(e); }
+}
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
+check();
+setInterval(check, 60000);
+</script>
+</body>
+</html>
