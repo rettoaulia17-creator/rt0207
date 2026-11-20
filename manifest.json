@@ -1,0 +1,13 @@
+{
+  "id": "./index.html",
+  "name": "Sistem Informasi RT 02/RW 07",
+  "short_name": "RT 02/07",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1b1431",
+  "theme_color": "#1b1431",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
