@@ -1,8 +1,9 @@
 {
-  "id": "./index.html",
+  "id": "/rt0207/",
+  "scope": "/rt0207/",
+  "start_url": "/rt0207/index.html",
   "name": "Sistem Informasi RT 02/RW 07",
   "short_name": "RT 02/07",
-  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1b1431",
   "theme_color": "#1b1431",
