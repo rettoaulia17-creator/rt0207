@@ -27,7 +27,7 @@ const setSeen = (ids) => { try { localStorage.setItem(SEEN_KEY, JSON.stringify(i
 
 function paint(n) {
   if ('setAppBadge' in navigator) { n > 0 ? navigator.setAppBadge(n) : navigator.clearAppBadge(); }
-  document.title = (n > 0 ? '(' + n + ') ' : '') + 'Sistem RT 2/7';
+  document.title = (n > 0 ? '(' + n + ') ' : '') + 'Sistem RT 2/7 WARGA';
 }
 
 async function check() {
